@@ -1,10 +1,10 @@
 CMakeFiles/gvd_topo_cli.dir/src/cli/CliApplication.cpp.o: \
- /home/keitaro/cursor_ws/General_Voronoi_Diagram/src/cli/CliApplication.cpp \
+ /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/src/cli/CliApplication.cpp \
  /usr/include/stdc-predef.h \
- /home/keitaro/cursor_ws/General_Voronoi_Diagram/include/gvd_topo/cli/CliApplication.hpp \
- /home/keitaro/cursor_ws/General_Voronoi_Diagram/include/gvd_topo/utils/ConfigManager.hpp \
- /home/keitaro/cursor_ws/General_Voronoi_Diagram/include/gvd_topo/io/YamlLoader.hpp \
- /home/keitaro/cursor_ws/General_Voronoi_Diagram/include/gvd_topo/core/OccupancyGrid.hpp \
+ /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/include/gvd_topo/cli/CliApplication.hpp \
+ /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/include/gvd_topo/utils/ConfigManager.hpp \
+ /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/include/gvd_topo/io/YamlLoader.hpp \
+ /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/include/gvd_topo/core/OccupancyGrid.hpp \
  /usr/include/c++/11/cstdint \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
@@ -157,10 +157,10 @@ CMakeFiles/gvd_topo_cli.dir/src/cli/CliApplication.cpp.o: \
  /usr/include/c++/11/backward/auto_ptr.h \
  /usr/include/c++/11/pstl/glue_memory_defs.h \
  /usr/include/c++/11/pstl/execution_defs.h \
- /home/keitaro/cursor_ws/General_Voronoi_Diagram/include/gvd_topo/core/GvdGenerator.hpp \
- /home/keitaro/cursor_ws/General_Voronoi_Diagram/include/gvd_topo/core/TopologyExtractor.hpp \
- /home/keitaro/cursor_ws/General_Voronoi_Diagram/include/gvd_topo/core/Visualizer.hpp \
- /home/keitaro/cursor_ws/General_Voronoi_Diagram/include/gvd_topo/utils/Timer.hpp \
+ /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/include/gvd_topo/core/GvdGenerator.hpp \
+ /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/include/gvd_topo/core/TopologyExtractor.hpp \
+ /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/include/gvd_topo/core/Visualizer.hpp \
+ /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/include/gvd_topo/utils/Timer.hpp \
  /usr/include/c++/11/chrono /usr/include/c++/11/ratio \
  /usr/include/c++/11/limits /usr/include/c++/11/ctime \
  /usr/include/c++/11/bits/parse_numbers.h /usr/include/c++/11/functional \

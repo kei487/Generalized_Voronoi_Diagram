@@ -1,7 +1,7 @@
 CMakeFiles/gvd_topo_core.dir/src/core/OccupancyGrid.cpp.o: \
- /home/keitaro/cursor_ws/General_Voronoi_Diagram/src/core/OccupancyGrid.cpp \
+ /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/src/core/OccupancyGrid.cpp \
  /usr/include/stdc-predef.h \
- /home/keitaro/cursor_ws/General_Voronoi_Diagram/include/gvd_topo/core/OccupancyGrid.hpp \
+ /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/include/gvd_topo/core/OccupancyGrid.hpp \
  /usr/include/c++/11/cstdint \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \

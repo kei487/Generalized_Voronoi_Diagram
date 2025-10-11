@@ -1,4 +1,4 @@
-# Install script for directory: /home/keitaro/cursor_ws/General_Voronoi_Diagram
+# Install script for directory: /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/keitaro/cursor_ws/General_Voronoi_Diagram/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

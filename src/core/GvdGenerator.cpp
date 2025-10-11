@@ -37,27 +37,47 @@ GvdResult GvdGenerator::run(const OccupancyGrid& grid) const {
             }
         }
 
-        // Ridge detection: 8-neighborhood local maxima on distance map
+        // Morphological skeletonization (similar to scikit-image's medial_axis)
+        // Step 1: Threshold distance map to create binary image (free space)
         const int w = grid.width;
         const int h = grid.height;
-        const float eps = 1e-6f;
-        #ifdef GVD_TOPO_WITH_OPENMP
-        #pragma omp parallel for schedule(static)
-        #endif
-        for (int y = 1; y < h - 1; ++y) {
-            for (int x = 1; x < w - 1; ++x) {
-                float c = result.distance[y * w + x];
-                if (c <= eps) continue;
-                bool is_max = true;
-                for (int ddy = -1; ddy <= 1 && is_max; ++ddy) {
-                    for (int ddx = -1; ddx <= 1; ++ddx) {
-                        if (ddx == 0 && ddy == 0) continue;
-                        if (result.distance[(y + ddy) * w + (x + ddx)] > c + eps) { is_max = false; break; }
-                    }
-                }
-                if (is_max) {
-                    result.gvd_mask[y * w + x] = 255;
-                }
+        cv::Mat binary(h, w, CV_8UC1);
+        const float dist_threshold = 0.001f; // cells with distance > threshold are considered free
+        
+        for (int y = 0; y < h; ++y) {
+            uint8_t* row = binary.ptr<uint8_t>(y);
+            for (int x = 0; x < w; ++x) {
+                row[x] = (result.distance[y * w + x] > dist_threshold) ? 255 : 0;
+            }
+        }
+        
+        // Step 2: Morphological skeletonization using iterative thinning
+        // This approximates scikit-image's medial_axis behavior
+        cv::Mat skeleton = cv::Mat::zeros(h, w, CV_8UC1);
+        cv::Mat temp;
+        cv::Mat eroded;
+        
+        cv::Mat element = cv::getStructuringElement(cv::MORPH_CROSS, cv::Size(3, 3));
+        
+        bool done = false;
+        int iteration = 0;
+        const int max_iterations = std::min(std::max(w, h), 10000); // Limit based on map size
+        while (!done && iteration < max_iterations) {
+            cv::erode(binary, eroded, element);
+            cv::dilate(eroded, temp, element);
+            cv::subtract(binary, temp, temp);
+            cv::bitwise_or(skeleton, temp, skeleton);
+            eroded.copyTo(binary);
+            
+            done = (cv::countNonZero(binary) == 0);
+            ++iteration;
+        }
+        
+        // Step 3: Copy skeleton to GVD mask
+        for (int y = 0; y < h; ++y) {
+            const uint8_t* row = skeleton.ptr<uint8_t>(y);
+            for (int x = 0; x < w; ++x) {
+                result.gvd_mask[y * w + x] = row[x];
             }
         }
     }

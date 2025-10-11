@@ -32,6 +32,11 @@ cmake --build build -j
 
 ## 使用方法
 
+### build cmd
+
+```
+  mkdir build && cd build && cmake .. && make -j$(nproc)
+```
 ### コマンドラインインターフェース
 
 ```bash

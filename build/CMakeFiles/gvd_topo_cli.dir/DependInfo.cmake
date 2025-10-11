@@ -8,13 +8,13 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/keitaro/cursor_ws/General_Voronoi_Diagram/src/cli/CliApplication.cpp" "CMakeFiles/gvd_topo_cli.dir/src/cli/CliApplication.cpp.o" "gcc" "CMakeFiles/gvd_topo_cli.dir/src/cli/CliApplication.cpp.o.d"
-  "/home/keitaro/cursor_ws/General_Voronoi_Diagram/src/cli/cli_main.cpp" "CMakeFiles/gvd_topo_cli.dir/src/cli/cli_main.cpp.o" "gcc" "CMakeFiles/gvd_topo_cli.dir/src/cli/cli_main.cpp.o.d"
+  "/home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/src/cli/CliApplication.cpp" "CMakeFiles/gvd_topo_cli.dir/src/cli/CliApplication.cpp.o" "gcc" "CMakeFiles/gvd_topo_cli.dir/src/cli/CliApplication.cpp.o.d"
+  "/home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/src/cli/cli_main.cpp" "CMakeFiles/gvd_topo_cli.dir/src/cli/cli_main.cpp.o" "gcc" "CMakeFiles/gvd_topo_cli.dir/src/cli/cli_main.cpp.o.d"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/keitaro/cursor_ws/General_Voronoi_Diagram/build/CMakeFiles/gvd_topo_core.dir/DependInfo.cmake"
+  "/home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/build/CMakeFiles/gvd_topo_core.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

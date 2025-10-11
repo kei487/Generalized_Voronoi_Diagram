@@ -1,8 +1,8 @@
 CMakeFiles/gvd_topo_core.dir/src/ros_adapters.cpp.o: \
- /home/keitaro/cursor_ws/General_Voronoi_Diagram/src/ros_adapters.cpp \
+ /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/src/ros_adapters.cpp \
  /usr/include/stdc-predef.h \
- /home/keitaro/cursor_ws/General_Voronoi_Diagram/include/gvd_topo/ros_adapters.hpp \
- /home/keitaro/cursor_ws/General_Voronoi_Diagram/include/gvd_topo/core/OccupancyGrid.hpp \
+ /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/include/gvd_topo/ros_adapters.hpp \
+ /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/include/gvd_topo/core/OccupancyGrid.hpp \
  /usr/include/c++/11/cstdint \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
@@ -133,7 +133,7 @@ CMakeFiles/gvd_topo_core.dir/src/ros_adapters.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
  /usr/include/c++/11/bits/charconv.h \
  /usr/include/c++/11/bits/basic_string.tcc \
- /home/keitaro/cursor_ws/General_Voronoi_Diagram/include/gvd_topo/core/TopologyExtractor.hpp \
+ /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/include/gvd_topo/core/TopologyExtractor.hpp \
  /usr/include/c++/11/utility /usr/include/c++/11/bits/stl_relops.h \
  /usr/include/c++/11/cmath /usr/include/math.h \
  /usr/include/x86_64-linux-gnu/bits/math-vector.h \

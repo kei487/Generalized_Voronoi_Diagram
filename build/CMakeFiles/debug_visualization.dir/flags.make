@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -DGVD_TOPO_WITH_OPENCV -DGVD_TOPO_WITH_OPENMP
 
-CXX_INCLUDES = -I/home/keitaro/cursor_ws/General_Voronoi_Diagram/include -isystem /usr/include/opencv4
+CXX_INCLUDES = -I/home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/include -isystem /usr/include/opencv4
 
 CXX_FLAGS = -march=native -fopenmp -std=c++17
 

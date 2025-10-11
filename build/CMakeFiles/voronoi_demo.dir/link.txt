@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/voronoi_demo.dir/src/main.cpp.o -o bin/voronoi_demo 

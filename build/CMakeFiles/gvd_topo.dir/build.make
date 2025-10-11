@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/keitaro/cursor_ws/General_Voronoi_Diagram
+CMAKE_SOURCE_DIR = /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/keitaro/cursor_ws/General_Voronoi_Diagram/build
+CMAKE_BINARY_DIR = /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/gvd_topo.dir/depend.make
@@ -72,16 +72,16 @@ include CMakeFiles/gvd_topo.dir/flags.make
 CMakeFiles/gvd_topo.dir/src/main.cpp.o: CMakeFiles/gvd_topo.dir/flags.make
 CMakeFiles/gvd_topo.dir/src/main.cpp.o: ../src/main.cpp
 CMakeFiles/gvd_topo.dir/src/main.cpp.o: CMakeFiles/gvd_topo.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/keitaro/cursor_ws/General_Voronoi_Diagram/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/gvd_topo.dir/src/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gvd_topo.dir/src/main.cpp.o -MF CMakeFiles/gvd_topo.dir/src/main.cpp.o.d -o CMakeFiles/gvd_topo.dir/src/main.cpp.o -c /home/keitaro/cursor_ws/General_Voronoi_Diagram/src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/gvd_topo.dir/src/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gvd_topo.dir/src/main.cpp.o -MF CMakeFiles/gvd_topo.dir/src/main.cpp.o.d -o CMakeFiles/gvd_topo.dir/src/main.cpp.o -c /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/src/main.cpp
 
 CMakeFiles/gvd_topo.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gvd_topo.dir/src/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/keitaro/cursor_ws/General_Voronoi_Diagram/src/main.cpp > CMakeFiles/gvd_topo.dir/src/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/src/main.cpp > CMakeFiles/gvd_topo.dir/src/main.cpp.i
 
 CMakeFiles/gvd_topo.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gvd_topo.dir/src/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/keitaro/cursor_ws/General_Voronoi_Diagram/src/main.cpp -o CMakeFiles/gvd_topo.dir/src/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/src/main.cpp -o CMakeFiles/gvd_topo.dir/src/main.cpp.s
 
 # Object files for target gvd_topo
 gvd_topo_OBJECTS = \
@@ -93,7 +93,7 @@ gvd_topo_EXTERNAL_OBJECTS =
 lib/libgvd_topo.a: CMakeFiles/gvd_topo.dir/src/main.cpp.o
 lib/libgvd_topo.a: CMakeFiles/gvd_topo.dir/build.make
 lib/libgvd_topo.a: CMakeFiles/gvd_topo.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/keitaro/cursor_ws/General_Voronoi_Diagram/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library lib/libgvd_topo.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library lib/libgvd_topo.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/gvd_topo.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/gvd_topo.dir/link.txt --verbose=$(VERBOSE)
 
@@ -106,6 +106,6 @@ CMakeFiles/gvd_topo.dir/clean:
 .PHONY : CMakeFiles/gvd_topo.dir/clean
 
 CMakeFiles/gvd_topo.dir/depend:
-	cd /home/keitaro/cursor_ws/General_Voronoi_Diagram/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/keitaro/cursor_ws/General_Voronoi_Diagram /home/keitaro/cursor_ws/General_Voronoi_Diagram /home/keitaro/cursor_ws/General_Voronoi_Diagram/build /home/keitaro/cursor_ws/General_Voronoi_Diagram/build /home/keitaro/cursor_ws/General_Voronoi_Diagram/build/CMakeFiles/gvd_topo.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/build /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/build /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/build/CMakeFiles/gvd_topo.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/gvd_topo.dir/depend
 

@@ -116,6 +116,7 @@ void CliApplication::saveOutputs(const ConfigOptions& config,
         }
         
         // Overlay GVD
+        std::cout << "overlay gvd" << std::endl;
         for (int y = 0; y < gvd_result.height; ++y) {
             for (int x = 0; x < gvd_result.width; ++x) {
                 if (gvd_result.gvd_mask[y * gvd_result.width + x]) {
@@ -125,22 +126,22 @@ void CliApplication::saveOutputs(const ConfigOptions& config,
         }
         
         // Draw edges
-        for (const auto& edge : topo_map.edges) {
-            for (size_t i = 1; i < edge.polyline.size(); ++i) {
-                cv::Point p0(static_cast<int>(std::round(edge.polyline[i-1].first / config.input.resolution)),
-                             static_cast<int>(std::round(edge.polyline[i-1].second / config.input.resolution)));
-                cv::Point p1(static_cast<int>(std::round(edge.polyline[i].first / config.input.resolution)),
-                             static_cast<int>(std::round(edge.polyline[i].second / config.input.resolution)));
-                cv::line(vis, p0, p1, cv::Scalar(0,0,255), 1); // edges -> blue
-            }
-        }
+        // for (const auto& edge : topo_map.edges) {
+        //     for (size_t i = 1; i < edge.polyline.size(); ++i) {
+        //         cv::Point p0(static_cast<int>(std::round(edge.polyline[i-1].first / config.input.resolution)),
+        //                      static_cast<int>(std::round(edge.polyline[i-1].second / config.input.resolution)));
+        //         cv::Point p1(static_cast<int>(std::round(edge.polyline[i].first / config.input.resolution)),
+        //                      static_cast<int>(std::round(edge.polyline[i].second / config.input.resolution)));
+        //         cv::line(vis, p0, p1, cv::Scalar(0,0,255), 1); // edges -> blue
+        //     }
+        // }
         
         // Draw nodes
-        for (const auto& node : topo_map.nodes) {
-            cv::Point p(static_cast<int>(std::round(node.x / config.input.resolution)),
-                        static_cast<int>(std::round(node.y / config.input.resolution)));
-            cv::circle(vis, p, 2, cv::Scalar(0,255,0), -1); // nodes -> green
-        }
+        // for (const auto& node : topo_map.nodes) {
+        //     cv::Point p(static_cast<int>(std::round(node.x / config.input.resolution)),
+        //                 static_cast<int>(std::round(node.y / config.input.resolution)));
+        //     cv::circle(vis, p, 2, cv::Scalar(0,255,0), -1); // nodes -> green
+        // }
         
         if (!cv::imwrite(config.output.gvd_image, vis)) {
             std::cerr << "Failed to write " << config.output.gvd_image << std::endl;

@@ -1,7 +1,7 @@
 CMakeFiles/create_test_maps.dir/tools/create_test_maps.cpp.o: \
- /home/keitaro/cursor_ws/General_Voronoi_Diagram/tools/create_test_maps.cpp \
+ /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/tools/create_test_maps.cpp \
  /usr/include/stdc-predef.h \
- /home/keitaro/cursor_ws/General_Voronoi_Diagram/include/gvd_topo/core/OccupancyGrid.hpp \
+ /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/include/gvd_topo/core/OccupancyGrid.hpp \
  /usr/include/c++/11/cstdint \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
