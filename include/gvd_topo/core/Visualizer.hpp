@@ -8,7 +8,7 @@ namespace gvd_topo {
 struct VisualizationOptions {
     int image_width {800};
     int image_height {600};
-    int node_radius {3};
+    int node_radius {1};
     int edge_thickness {1};
     bool show_node_ids {false};
     bool show_edge_lengths {false};

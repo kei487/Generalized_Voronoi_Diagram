@@ -61,7 +61,7 @@ GvdResult GvdGenerator::run(const OccupancyGrid& grid) const {
         
         bool done = false;
         int iteration = 0;
-        const int max_iterations = std::min(std::max(w, h), 10000); // Limit based on map size
+        const int max_iterations = 10000;//std::min(std::max(w, h), 10000); // Limit based on map size
         while (!done && iteration < max_iterations) {
             cv::erode(binary, eroded, element);
             cv::dilate(eroded, temp, element);
@@ -72,7 +72,8 @@ GvdResult GvdGenerator::run(const OccupancyGrid& grid) const {
             done = (cv::countNonZero(binary) == 0);
             ++iteration;
         }
-        
+
+
         // Step 3: Copy skeleton to GVD mask
         for (int y = 0; y < h; ++y) {
             const uint8_t* row = skeleton.ptr<uint8_t>(y);

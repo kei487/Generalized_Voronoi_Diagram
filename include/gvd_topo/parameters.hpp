@@ -15,8 +15,8 @@ struct ProcessingParameters {
     bool use_opencv {true};
     
     // Topology extraction parameters
-    double prune_min_length {0.5};
-    double merge_radius {0.2};
+    double prune_min_length {30.0};
+    double merge_radius {30.0};
     int max_trace_steps {100000};
     
     // Output parameters

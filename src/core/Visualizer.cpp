@@ -96,7 +96,7 @@ void Visualizer::saveTopologicalMapAsImage(const TopologicalMap& map,
         int y = static_cast<int>((node.y - min_y) * scale);
         y = options.image_height - y; // Flip Y coordinate
         
-        cv::circle(image, cv::Point(x, y), options.node_radius, 
+        cv::circle(image, cv::Point(x, y), 0.5, //options.node_radius, 
                   cv::Scalar(options.node_color[0], options.node_color[1], options.node_color[2]), -1);
         
         // Draw node ID if requested
