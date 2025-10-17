@@ -56,6 +56,7 @@ void Visualizer::saveTopologicalMapAsImage(const TopologicalMap& map,
     cv::Mat image(options.image_height, options.image_width, CV_8UC3);
     image.setTo(cv::Scalar(options.background_color[0], options.background_color[1], options.background_color[2]));
     
+    /*
     // Draw edges first
     for (const auto& edge : map.edges) {
         if (edge.polyline.empty()) continue;
@@ -89,7 +90,7 @@ void Visualizer::saveTopologicalMapAsImage(const TopologicalMap& map,
                        cv::Scalar(options.text_color[0], options.text_color[1], options.text_color[2]), 1);
         }
     }
-    
+    */
     // Draw nodes
     for (const auto& node : map.nodes) {
         int x = static_cast<int>((node.x - min_x) * scale);
