@@ -56,18 +56,22 @@ void Visualizer::saveTopologicalMapAsImage(const TopologicalMap& map,
     cv::Mat image(options.image_height, options.image_width, CV_8UC3);
     image.setTo(cv::Scalar(options.background_color[0], options.background_color[1], options.background_color[2]));
     
-    /*
+    
     // Draw edges first
     for (const auto& edge : map.edges) {
-        if (edge.polyline.empty()) continue;
+        //if (edge.polyline.empty()) continue;
+        
         
         std::vector<cv::Point> points;
-        for (const auto& pt : edge.polyline) {
-            int x = static_cast<int>((pt.first - min_x) * scale);
-            int y = static_cast<int>((pt.second - min_y) * scale);
-            y = options.image_height - y; // Flip Y coordinate
-            points.push_back(cv::Point(x, y));
-        }
+        int x1 = static_cast<int>((map.nodes[edge.u].x - min_x) * scale);
+        int y1 = static_cast<int>((map.nodes[edge.u].y - min_y) * scale);
+        int x2 = static_cast<int>((map.nodes[edge.v].x - min_x) * scale);
+        int y2 = static_cast<int>((map.nodes[edge.v].y - min_y) * scale);
+        y1 = options.image_height - y1; // Flip Y coordinate
+        y2 = options.image_height - y2; // Flip Y coordinate
+        points.push_back(cv::Point(x1, y1));
+        points.push_back(cv::Point(x2, y2));
+        
         
         if (points.size() > 1) {
             for (size_t i = 1; i < points.size(); ++i) {
@@ -78,6 +82,7 @@ void Visualizer::saveTopologicalMapAsImage(const TopologicalMap& map,
         }
         
         // Draw edge length if requested
+        /*
         if (options.show_edge_lengths && !edge.polyline.empty()) {
             const auto& mid_pt = edge.polyline[edge.polyline.size() / 2];
             int x = static_cast<int>((mid_pt.first - min_x) * scale);
@@ -89,8 +94,10 @@ void Visualizer::saveTopologicalMapAsImage(const TopologicalMap& map,
                        cv::FONT_HERSHEY_SIMPLEX, 0.3, 
                        cv::Scalar(options.text_color[0], options.text_color[1], options.text_color[2]), 1);
         }
+        */
     }
-    */
+    
+    /*
     // Draw nodes
     for (const auto& node : map.nodes) {
         int x = static_cast<int>((node.x - min_x) * scale);
@@ -108,6 +115,7 @@ void Visualizer::saveTopologicalMapAsImage(const TopologicalMap& map,
                        cv::Scalar(options.text_color[0], options.text_color[1], options.text_color[2]), 1);
         }
     }
+    */
     
     // Save image
     if (!cv::imwrite(output_path, image)) {

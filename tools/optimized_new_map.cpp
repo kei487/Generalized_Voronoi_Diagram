@@ -35,14 +35,16 @@ int main() {
     params.resolution = grid.resolution;
     
     topo.setParams(params);
-    auto map = topo.run(result.gvd_mask, result.width, result.height, grid.resolution);
+    auto map = topo.run(grid, result.gvd_mask, result.width, result.height, grid.resolution);
     
     std::cout << "Topological map: " << map.nodes.size() << " nodes, " << map.edges.size() << " edges" << std::endl;
     
     // Analyze node distribution
     if (!map.nodes.empty()) {
-        double min_x = map.nodes[0].x, max_x = map.nodes[0].x;
-        double min_y = map.nodes[0].y, max_y = map.nodes[0].y;
+        double min_x = map.nodes[0].x;
+        double max_x = map.nodes[0].x;
+        double min_y = map.nodes[0].y;
+        double max_y = map.nodes[0].y;
         for (const auto& node : map.nodes) {
             min_x = std::min(min_x, node.x);
             max_x = std::max(max_x, node.x);

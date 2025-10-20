@@ -55,11 +55,12 @@ private:
 
     /**
      * @brief Extract topology from GVD result
+     * @param grid Input occupancy grid
      * @param gvd_result GVD result
      * @param resolution Map resolution
      * @return Topological map
      */
-    TopologicalMap extractTopology(const GvdResult& gvd_result, double resolution);
+    TopologicalMap extractTopology(const OccupancyGrid& grid, const GvdResult& gvd_result, double resolution);
 
     /**
      * @brief Save outputs based on configuration

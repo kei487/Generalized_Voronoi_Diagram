@@ -25,7 +25,7 @@ int main() {
     
     // Extract topology
     TopologyExtractor topo;
-    auto map = topo.run(result.gvd_mask, result.width, result.height, grid.resolution);
+    auto map = topo.run(grid, result.gvd_mask, result.width, result.height, grid.resolution);
     
     std::cout << "Using resolution: " << grid.resolution << " m/pixel" << std::endl;
     
@@ -47,12 +47,13 @@ int main() {
     
     // Analyze edge distribution
     if (!map.edges.empty()) {
-        double min_len = map.edges[0].length, max_len = map.edges[0].length;
+        double min_len = map.edges[0].length;
+        double max_len = map.edges[0].length;
         int edges_with_polyline = 0;
         for (const auto& edge : map.edges) {
             min_len = std::min(min_len, edge.length);
             max_len = std::max(max_len, edge.length);
-            if (!edge.polyline.empty()) edges_with_polyline++;
+            //if (!edge.polyline.empty()) edges_with_polyline++;
         }
         std::cout << "Edge length range: [" << min_len << ", " << max_len << "]" << std::endl;
         std::cout << "Edges with polyline: " << edges_with_polyline << "/" << map.edges.size() << std::endl;

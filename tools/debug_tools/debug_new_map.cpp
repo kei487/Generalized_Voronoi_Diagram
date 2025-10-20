@@ -32,7 +32,7 @@ int main() {
     // Extract topology
     std::cout << "Extracting topology..." << std::endl;
     TopologyExtractor topo;
-    auto map = topo.run(result.gvd_mask, result.width, result.height, grid.resolution);
+    auto map = topo.run(grid, result.gvd_mask, result.width, result.height, grid.resolution);
     
     std::cout << "Topological map: " << map.nodes.size() << " nodes, " << map.edges.size() << " edges" << std::endl;
     

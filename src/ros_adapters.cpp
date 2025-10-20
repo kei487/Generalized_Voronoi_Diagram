@@ -46,8 +46,8 @@ MarkerArray topologicalMapToMarkers(const TopologicalMap& map, const std::string
     for (const auto& edge : map.edges) {
         Marker marker;
         marker.id = edge.id + 10000; // Offset to avoid ID conflicts
-        marker.pose.x = (edge.polyline.empty()) ? 0.0 : edge.polyline[0].first;
-        marker.pose.y = (edge.polyline.empty()) ? 0.0 : edge.polyline[0].second;
+        marker.pose.x = 0.0; //(edge.polyline.empty()) ? 0.0 : edge.polyline[0].first;
+        marker.pose.y = 0.0; //(edge.polyline.empty()) ? 0.0 : edge.polyline[0].second;
         marker.scale = edge.length;
         marker.color = {0, 0, 255, 255}; // Blue for edges
         array.markers.push_back(marker);
@@ -82,8 +82,8 @@ std::vector<Marker> edgesToMarkers(const std::vector<TopoEdge>& edges, const std
     for (const auto& edge : edges) {
         Marker marker;
         marker.id = edge.id + 10000; // Offset to avoid ID conflicts
-        marker.pose.x = (edge.polyline.empty()) ? 0.0 : edge.polyline[0].first;
-        marker.pose.y = (edge.polyline.empty()) ? 0.0 : edge.polyline[0].second;
+        marker.pose.x = 0.0;//(edge.polyline.empty()) ? 0.0 : edge.polyline[0].first;
+        marker.pose.y = 0.0;//(edge.polyline.empty()) ? 0.0 : edge.polyline[0].second;
         marker.scale = edge.length;
         marker.color = {255, 0, 0, 255}; // Red for edges
         markers.push_back(marker);

@@ -7,8 +7,11 @@
 
 namespace gvd_topo {
 
+class OccupancyGrid; // Forward declaration
+
 struct TopoNode {
     int id {0};
+    std::vector<int> edge_ids;
     double x {0.0};
     double y {0.0};
 };
@@ -18,7 +21,7 @@ struct TopoEdge {
     int u {0};
     int v {0};
     double length {0.0};
-    std::vector<std::pair<double,double>> polyline; // optional geometry
+    //std::vector<std::pair<double,double>> polyline; // optional geometry
 };
 
 struct TopologicalMap {
@@ -38,7 +41,7 @@ public:
     explicit TopologyExtractor(const Params& p);
 
     void setParams(const Params& p) { params_ = p; }
-    TopologicalMap run(const std::vector<uint8_t>& gvd_mask, int width, int height, double resolution) const;
+    TopologicalMap run(const OccupancyGrid& grid, const std::vector<uint8_t>& gvd_mask, int width, int height, double resolution) const;
 
 private:
     Params params_;

@@ -56,7 +56,7 @@ int main() {
     params.merge_radius = 0.1;     // Reduce merge radius
     
     TopologyExtractor topo(params);
-    auto map = topo.run(result.gvd_mask, result.width, result.height, 0.3);
+    auto map = topo.run(grid, result.gvd_mask, result.width, result.height, 0.3);
     
     std::cout << "Topological map: " << map.nodes.size() << " nodes, " << map.edges.size() << " edges" << std::endl;
     

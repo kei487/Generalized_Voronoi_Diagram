@@ -956,6 +956,7 @@ CMakeFiles/gvd_topo_core.dir/src/core/TopologyExtractor.cpp.o: ../src/core/Topol
   /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
   /usr/include/c++/11/bits/charconv.h \
   /usr/include/c++/11/bits/basic_string.tcc \
+  ../include/gvd_topo/core/OccupancyGrid.hpp \
   /usr/include/c++/11/queue \
   /usr/include/c++/11/deque \
   /usr/include/c++/11/bits/stl_deque.h \
@@ -1028,6 +1029,9 @@ CMakeFiles/gvd_topo_core.dir/src/core/TopologyExtractor.cpp.o: ../src/core/Topol
   /usr/include/c++/11/bits/invoke.h \
   /usr/include/c++/11/bits/stl_multimap.h \
   /usr/include/c++/11/bits/erase_if.h \
+  /usr/include/c++/11/set \
+  /usr/include/c++/11/bits/stl_set.h \
+  /usr/include/c++/11/bits/stl_multiset.h \
   /usr/include/c++/11/algorithm \
   /usr/include/c++/11/bits/stl_algo.h \
   /usr/include/c++/11/bits/algorithmfwd.h \
@@ -1044,7 +1048,160 @@ CMakeFiles/gvd_topo_core.dir/src/core/TopologyExtractor.cpp.o: ../src/core/Topol
   /usr/include/c++/11/bits/unordered_map.h \
   /usr/include/c++/11/pstl/execution_defs.h \
   /usr/include/c++/11/unordered_set \
-  /usr/include/c++/11/bits/unordered_set.h
+  /usr/include/c++/11/bits/unordered_set.h \
+  /usr/include/opencv4/opencv2/imgproc.hpp \
+  /usr/include/opencv4/opencv2/core.hpp \
+  /usr/include/opencv4/opencv2/core/cvdef.h \
+  /usr/include/opencv4/opencv2/core/version.hpp \
+  /usr/include/opencv4/opencv2/core/hal/interface.h \
+  /usr/include/c++/11/cstddef \
+  /usr/include/opencv4/opencv2/core/cv_cpu_dispatch.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/emmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/xmmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/mmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/mm_malloc.h \
+  /usr/include/c++/11/stdlib.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/immintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/x86gprintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/ia32intrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/adxintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/bmiintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/bmi2intrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/cetintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/cldemoteintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/clflushoptintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/clwbintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/clzerointrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/enqcmdintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/fxsrintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/lzcntintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/lwpintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/movdirintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/mwaitintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/mwaitxintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/pconfigintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/popcntintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/pkuintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/rdseedintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/rtmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/serializeintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/sgxintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/tbmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/tsxldtrkintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/uintrintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/waitpkgintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/wbnoinvdintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/xsaveintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/xsavecintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/xsaveoptintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/xsavesintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/xtestintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/hresetintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/pmmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/tmmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/smmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/wmmintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avxintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avxvnniintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx2intrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512fintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512erintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512pfintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512cdintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vlintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512bwintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512dqintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vlbwintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vldqintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512ifmaintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512ifmavlintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vbmiintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vbmivlintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx5124fmapsintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx5124vnniwintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vpopcntdqintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vbmi2intrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vbmi2vlintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vnniintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vnnivlintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vpopcntdqvlintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512bitalgintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vp2intersectintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vp2intersectvlintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/shaintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/fmaintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/f16cintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/gfniintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/vaesintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/vpclmulqdqintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512bf16vlintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512bf16intrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/amxtileintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/amxint8intrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/amxbf16intrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/prfchwintrin.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/keylockerintrin.h \
+  /usr/include/opencv4/opencv2/core/base.hpp \
+  /usr/include/opencv4/opencv2/opencv_modules.hpp \
+  /usr/include/c++/11/climits \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/limits.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h \
+  /usr/include/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+  /usr/include/linux/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+  /usr/include/opencv4/opencv2/core/cvstd.hpp \
+  /usr/include/c++/11/cstring \
+  /usr/include/string.h \
+  /usr/include/strings.h \
+  /usr/include/opencv4/opencv2/core/cvstd_wrapper.hpp \
+  /usr/include/c++/11/memory \
+  /usr/include/c++/11/bits/stl_raw_storage_iter.h \
+  /usr/include/c++/11/bits/align.h \
+  /usr/include/c++/11/bit \
+  /usr/include/c++/11/bits/unique_ptr.h \
+  /usr/include/c++/11/bits/shared_ptr.h \
+  /usr/include/c++/11/bits/shared_ptr_base.h \
+  /usr/include/c++/11/bits/allocated_ptr.h \
+  /usr/include/c++/11/ext/concurrence.h \
+  /usr/include/c++/11/bits/shared_ptr_atomic.h \
+  /usr/include/c++/11/bits/atomic_base.h \
+  /usr/include/c++/11/bits/atomic_lockfree_defines.h \
+  /usr/include/c++/11/backward/auto_ptr.h \
+  /usr/include/c++/11/pstl/glue_memory_defs.h \
+  /usr/include/opencv4/opencv2/core/neon_utils.hpp \
+  /usr/include/opencv4/opencv2/core/vsx_utils.hpp \
+  /usr/include/assert.h \
+  /usr/include/opencv4/opencv2/core/check.hpp \
+  /usr/include/opencv4/opencv2/core/traits.hpp \
+  /usr/include/opencv4/opencv2/core/matx.hpp \
+  /usr/include/opencv4/opencv2/core/saturate.hpp \
+  /usr/include/opencv4/opencv2/core/fast_math.hpp \
+  /usr/include/opencv4/opencv2/core/types.hpp \
+  /usr/include/c++/11/cfloat \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/float.h \
+  /usr/include/opencv4/opencv2/core/mat.hpp \
+  /usr/include/opencv4/opencv2/core/bufferpool.hpp \
+  /usr/include/opencv4/opencv2/core/mat.inl.hpp \
+  /usr/include/opencv4/opencv2/core/persistence.hpp \
+  /usr/include/opencv4/opencv2/core/operations.hpp \
+  /usr/include/opencv4/opencv2/core/cvstd.inl.hpp \
+  /usr/include/c++/11/complex \
+  /usr/include/opencv4/opencv2/core/utility.hpp \
+  /usr/include/c++/11/mutex \
+  /usr/include/c++/11/chrono \
+  /usr/include/c++/11/ratio \
+  /usr/include/c++/11/ctime \
+  /usr/include/c++/11/bits/parse_numbers.h \
+  /usr/include/c++/11/bits/std_mutex.h \
+  /usr/include/c++/11/bits/unique_lock.h \
+  /usr/include/opencv4/opencv2/core/optim.hpp \
+  /usr/include/opencv4/opencv2/core/ovx.hpp \
+  /usr/include/opencv4/opencv2/core/cvdef.h \
+  /usr/include/opencv4/opencv2/imgproc/segmentation.hpp
 
 CMakeFiles/gvd_topo_core.dir/src/core/Visualizer.cpp.o: ../src/core/Visualizer.cpp \
   /usr/include/stdc-predef.h \
@@ -2274,6 +2431,10 @@ CMakeFiles/gvd_topo_core.dir/src/utils/ConfigManager.cpp.o: ../src/utils/ConfigM
 
 /usr/include/c++/11/bits/unordered_set.h:
 
+/usr/include/c++/11/bits/stl_multiset.h:
+
+/usr/include/c++/11/set:
+
 /usr/include/c++/11/bits/stl_multimap.h:
 
 /usr/include/c++/11/bits/stl_map.h:
@@ -3003,6 +3164,8 @@ CMakeFiles/gvd_topo_core.dir/src/utils/ConfigManager.cpp.o: ../src/utils/ConfigM
 /usr/include/c++/11/type_traits:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/mwaitxintrin.h:
+
+/usr/include/c++/11/bits/stl_set.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/popcntintrin.h:
 

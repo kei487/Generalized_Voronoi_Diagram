@@ -29,7 +29,7 @@ int main() {
     map.nodes = {node1, node2};
     
     TopoEdge edge; edge.id = 1; edge.u = 1; edge.v = 2; edge.length = 2.828;
-    edge.polyline = {{1.0, 2.0}, {2.0, 3.0}, {3.0, 4.0}};
+    //edge.polyline = {{1.0, 2.0}, {2.0, 3.0}, {3.0, 4.0}};
     map.edges = {edge};
     
     MarkerArray markers = topologicalMapToMarkers(map);

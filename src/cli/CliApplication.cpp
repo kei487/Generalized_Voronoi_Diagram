@@ -40,7 +40,7 @@ int CliApplication::run(const ConfigOptions& config) {
         TopologicalMap topo_map;
         {
             ScopeTimer timer("topology", timing_callback_);
-            topo_map = extractTopology(gvd_result, config.input.resolution);
+            topo_map = extractTopology(grid, gvd_result, config.input.resolution);
         }
 
         // Print statistics
@@ -79,8 +79,8 @@ GvdResult CliApplication::generateGVD(const OccupancyGrid& grid) {
     return gvd_generator_->run(grid);
 }
 
-TopologicalMap CliApplication::extractTopology(const GvdResult& gvd_result, double resolution) {
-    return topology_extractor_->run(gvd_result.gvd_mask, gvd_result.width, gvd_result.height, resolution);
+TopologicalMap CliApplication::extractTopology(const OccupancyGrid& grid, const GvdResult& gvd_result, double resolution) {
+    return topology_extractor_->run(grid, gvd_result.gvd_mask, gvd_result.width, gvd_result.height, resolution);
 }
 
 void CliApplication::saveOutputs(const ConfigOptions& config, 
