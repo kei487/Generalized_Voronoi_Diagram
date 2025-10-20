@@ -55,9 +55,9 @@ static std::vector<uint8_t> zhangSuenThinning(const std::vector<uint8_t>& input,
         changed = false;
         
         // Sub-iteration 1: Mark pixels to delete
-        #ifdef GVD_TOPO_WITH_OPENMP
+    #ifdef GVD_TOPO_WITH_OPENMP
         #pragma omp parallel for schedule(dynamic, 64)
-        #endif
+    #endif
         for (int y = 1; y < height - 1; ++y) {
             for (int x = 1; x < width - 1; ++x) {
                 int idx_center = idx(x, y, width);
@@ -147,7 +147,7 @@ static std::vector<uint8_t> zhangSuenThinning(const std::vector<uint8_t>& input,
 
 
 // Extract nodes from Hough transform line detection (alternative to degree-based method)
-static TopologicalMap extractNodesFromHoughLines(const std::vector<uint8_t>& is_skel, int width, int height) {
+static TopologicalMap extractNodesFromHoughLines(const std::vector<uint8_t>& is_skel, int width, int height, double resolution) {
 #ifdef GVD_TOPO_WITH_OPENCV
     std::vector<TopoNode> nodes;
     std::vector<TopoEdge> edges;
@@ -198,7 +198,9 @@ static TopologicalMap extractNodesFromHoughLines(const std::vector<uint8_t>& is_
         tmp_edge.id = tmp_id++;
         tmp_edge.u = node_id - 2;
         tmp_edge.v = node_id - 1;
-        tmp_edge.length = std::sqrt(static_cast<double>((x2 - x1)*(x2 - x1) + (y2 - y1)*(y2 - y1)));
+        // Calculate length in pixels, then convert to meters
+        double length_px = std::sqrt(static_cast<double>((x2 - x1)*(x2 - x1) + (y2 - y1)*(y2 - y1)));
+        tmp_edge.length = length_px * resolution;
         edges.push_back(tmp_edge);
 
 
@@ -211,7 +213,7 @@ static TopologicalMap extractNodesFromHoughLines(const std::vector<uint8_t>& is_
 #else
     (void)is_skel; (void)width; (void)height;
     return TopologicalMap(); // Return empty if OpenCV not available
-#endif
+        #endif
 }
 
 // Bresenham's line algorithm to get all pixels on a line
@@ -274,82 +276,87 @@ static TopologicalMap connectEndpoints(
     double max_search_radius) {
     
     TopologicalMap result = topo;
-    
-    // Build node degree map (count how many edges connect to each node)
-    std::map<int, int> node_degree;
-    for (const auto& node : result.nodes) {
-        node_degree[node.id] = 0;
-    }
+
+    std::vector<int> degree(result.nodes.size(), 0);
     for (const auto& edge : result.edges) {
-        node_degree[edge.u]++;
-        node_degree[edge.v]++;
+        degree[edge.u]++;
+        degree[edge.v]++;
     }
     
-    // Find all endpoint nodes (degree <= 1)
+    // Identify endpoints (degree == 1)
     std::vector<int> endpoint_ids;
     for (const auto& node : result.nodes) {
-        if (node_degree[node.id] <= 1) {
+        if (degree[node.id] == 1) {
             endpoint_ids.push_back(node.id);
         }
     }
     
-    // Create node ID to index mapping
-    std::map<int, size_t> id_to_idx;
-    for (size_t i = 0; i < result.nodes.size(); ++i) {
-        id_to_idx[result.nodes[i].id] = i;
+    // Build spatial grid for faster neighbor search
+    double max_search_radius_px = max_search_radius / grid.resolution;
+    int grid_size = static_cast<int>(std::max(1.0, max_search_radius_px)) + 1;
+
+    std::map<std::pair<int,int>, std::vector<int>> spatial_grid;
+    for (auto& node : result.nodes) {
+        int gx = static_cast<int>(std::round(node.x / grid.resolution));
+        int gy = static_cast<int>(std::round(node.y / grid.resolution));
+        spatial_grid[{gx, gy}].push_back(node.id);
     }
     
-    // Set to track which endpoints have been connected
-    std::set<int> connected_endpoints;
-    
-    // Try to connect each endpoint
+    // set next edge id
     int next_edge_id = result.edges.empty() ? 0 : 
         (*std::max_element(result.edges.begin(), result.edges.end(), 
             [](const TopoEdge& a, const TopoEdge& b) { return a.id < b.id; })).id + 1;
     
+    // Set to track which endpoints have been connected
+    std::set<int> connected_endpoints;
+    
+    //loop through all endpoints
     for (int endpoint_id : endpoint_ids) {
         // Skip if already connected in this pass
         if (connected_endpoints.count(endpoint_id)) continue;
         
-        const auto& src_node = result.nodes[id_to_idx[endpoint_id]];
+        const auto& src_node = result.nodes[endpoint_id];
         
         // Node coordinates are already in pixels (from Hough transform)
         int src_x = static_cast<int>(std::round(src_node.x));
         int src_y = static_cast<int>(std::round(src_node.y));
-        
-        // Convert max_search_radius from meters to pixels
-        double max_search_radius_px = max_search_radius / grid.resolution;
+        int src_gx = src_x / grid_size;
+        int src_gy = src_y / grid_size;
         
         // Find best connection candidate
         int best_candidate_id = -1;
         double best_distance = std::numeric_limits<double>::max();
         
-        for (int candidate_id : endpoint_ids) {
-            // Skip self and already connected
-            if (candidate_id == endpoint_id || connected_endpoints.count(candidate_id)) continue;
-            
-            const auto& cand_node = result.nodes[id_to_idx[candidate_id]];
-            
-            // Check if within search radius (in pixels)
-            double dx = src_node.x - cand_node.x;
-            double dy = src_node.y - cand_node.y;
-            double distance_px = std::sqrt(dx * dx + dy * dy);
-            
-            if (distance_px > max_search_radius_px) continue;
-            
-            // Candidate coordinates are also in pixels
-            int cand_x = static_cast<int>(std::round(cand_node.x));
-            int cand_y = static_cast<int>(std::round(cand_node.y));
-            
-            // Check if path is collision-free
-            if (!isPathClearOnGrid(grid, src_x, src_y, cand_x, cand_y)) {
-                continue;
-            }
-            
-            // Update best candidate if closer
-            if (distance_px < best_distance) {
-                best_distance = distance_px;
-                best_candidate_id = candidate_id;
+        // Check cells in the grid_size range
+        for (int dgy = -grid_size/2; dgy <= grid_size/2; ++dgy) {
+            for (int dgx = -grid_size/2; dgx <= grid_size/2; ++dgx) {
+                auto it = spatial_grid.find({src_gx + dgx, src_gy + dgy});
+                if (it == spatial_grid.end()) continue;
+                
+                for (int candidate_id : it->second) {
+                    // Skip self and already connected
+                    if (candidate_id == endpoint_id) continue;
+                    
+                    const auto& cand_node = result.nodes[candidate_id];
+                    
+                    // Candidate coordinates are also in pixels
+                    int cand_x = static_cast<int>(std::round(cand_node.x));
+                    int cand_y = static_cast<int>(std::round(cand_node.y));
+                    
+                    // Check if path is collision-free
+                    if (!isPathClearOnGrid(grid, src_x, src_y, cand_x, cand_y)) {
+                        continue;
+                    }
+                    
+                    // calculate distance between source and candidate node
+                    double distance_px = std::hypot(src_x - cand_x, src_y - cand_y);
+
+                    // Update best candidate if closer
+                    if (distance_px < best_distance) {
+                        best_distance = distance_px;
+                        best_candidate_id = candidate_id;
+                    }
+                }
             }
         }
         
@@ -373,9 +380,108 @@ static TopologicalMap connectEndpoints(
     return result;
 }
 
-// Merge nearby nodes using spatial grid hashing
-static std::vector<int> mergeNearbyNodes(const std::vector<NodePix>& raw_nodes, double merge_radius_px) {
- 
+// Merge nearby nodes that are connected by short edges
+static TopologicalMap mergeNearbyNodes(const TopologicalMap& topo, double merge_threshold, double resolution) {
+    if (topo.nodes.empty()) return topo;
+    
+    // Union-Find data structure
+    std::vector<int> parent(topo.nodes.size());
+    for (size_t i = 0; i < parent.size(); ++i) {
+        parent[i] = i;
+    }
+    
+    auto find = [&](int x) {
+        while (parent[x] != x) {
+            parent[x] = parent[parent[x]]; // Path compression
+            x = parent[x];
+        }
+        return x;
+    };
+    
+    auto unite = [&](int x, int y) {
+        x = find(x);
+        y = find(y);
+        if (x != y) {
+            parent[y] = x;
+        }
+    };
+    
+    // Group nodes connected by edges shorter than threshold
+    for (const auto& edge : topo.edges) {
+        if (edge.length <= merge_threshold) {
+            unite(edge.u, edge.v);
+        }
+    }
+    
+    // Build groups: map from root to list of node IDs
+    std::map<int, std::vector<int>> groups;
+    for (size_t i = 0; i < topo.nodes.size(); ++i) {
+        int root = find(i);
+        groups[root].push_back(i);
+    }
+    
+    // Create merged nodes (compute centroid for each group)
+    TopologicalMap result;
+    std::map<int, int> old_to_new_id; // old node ID -> new node ID
+    
+    int new_node_id = 0;
+    for (const auto& [root, group_ids] : groups) {
+        TopoNode merged_node;
+        merged_node.id = new_node_id++;
+        
+        // Compute centroid
+        double sum_x = 0.0, sum_y = 0.0;
+        for (int old_id : group_ids) {
+            sum_x += topo.nodes[old_id].x;
+            sum_y += topo.nodes[old_id].y;
+        }
+        merged_node.x = sum_x / group_ids.size();
+        merged_node.y = sum_y / group_ids.size();
+        
+        result.nodes.push_back(merged_node);
+        
+        // Map all old IDs in this group to the new merged node ID
+        for (int old_id : group_ids) {
+            old_to_new_id[old_id] = merged_node.id;
+        }
+    }
+    
+    // Rebuild edges with new node IDs
+    std::set<std::pair<int, int>> added_edges; // To avoid duplicate edges
+    int new_edge_id = 0;
+    
+    for (const auto& old_edge : topo.edges) {
+        int new_u = old_to_new_id[old_edge.u];
+        int new_v = old_to_new_id[old_edge.v];
+        
+        // Skip self-loops (edges within merged group)
+        if (new_u == new_v) continue;
+        
+        // Ensure consistent edge direction (smaller ID first)
+        if (new_u > new_v) std::swap(new_u, new_v);
+        
+        // Skip duplicate edges
+        if (added_edges.count({new_u, new_v})) continue;
+        added_edges.insert({new_u, new_v});
+        
+        // Create new edge
+        TopoEdge new_edge;
+        new_edge.id = new_edge_id++;
+        new_edge.u = new_u;
+        new_edge.v = new_v;
+        
+        // Recalculate length based on merged node positions (in pixels, convert to meters)
+        const auto& node_u = result.nodes[new_u];
+        const auto& node_v = result.nodes[new_v];
+        double dx = node_u.x - node_v.x;
+        double dy = node_u.y - node_v.y;
+        double length_px = std::sqrt(dx * dx + dy * dy);
+        new_edge.length = length_px * resolution;
+        
+        result.edges.push_back(new_edge);
+    }
+    
+    return result;
 }
 
 
@@ -391,11 +497,16 @@ TopologicalMap TopologyExtractor::run(const OccupancyGrid& grid, const std::vect
     std::vector<uint8_t> is_skel = zhangSuenThinning(gvd_mask, width, height);
 
     // Phase 1: Extract nodes and edges from Hough transform line detection
-    topo = extractNodesFromHoughLines(is_skel, width, height);
+    topo = extractNodesFromHoughLines(is_skel, width, height, resolution);
 
     // Phase 2: Connect isolated endpoint nodes
-    const double max_search_radius = 10.0;  // meters (can be made configurable via params)
+    // Adjust search radius based on map size to avoid performance issues
+    const double max_search_radius = (width * height > 10000000) ? 2.0 : 10.0;  // meters
     topo = connectEndpoints(grid, topo, max_search_radius);
+
+    // Phase 3: Merge nearby nodes connected by short edges
+    const double merge_threshold = 5.0 * resolution;  // Merge nodes closer than 1 pixel (in meters)
+    topo = mergeNearbyNodes(topo, merge_threshold, resolution);
 
     return topo;
 }
