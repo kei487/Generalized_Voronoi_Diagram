@@ -147,7 +147,8 @@ static std::vector<uint8_t> zhangSuenThinning(const std::vector<uint8_t>& input,
 
 
 // Extract nodes from Hough transform line detection (alternative to degree-based method)
-static TopologicalMap extractNodesFromHoughLines(const std::vector<uint8_t>& is_skel, int width, int height, double resolution) {
+static TopologicalMap extractNodesFromHoughLines(const std::vector<uint8_t>& is_skel, int width, int height,
+     double resolution,double min_length) {
 #ifdef GVD_TOPO_WITH_OPENCV
     std::vector<TopoNode> nodes;
     std::vector<TopoEdge> edges;
@@ -185,22 +186,30 @@ static TopologicalMap extractNodesFromHoughLines(const std::vector<uint8_t>& is_
         int x1 = line[0], y1 = line[1];
         int x2 = line[2], y2 = line[3];
         
+        // Calculate length in pixels, then convert to meters
+        double length_px = std::hypot(x2 - x1, y2 - y1);
+        tmp_edge.length = length_px * resolution;
+
+        if(length_px < min_length) {
+            continue;
+        }
+
         tmp_node.id = node_id++;
         tmp_node.x = x1;
         tmp_node.y = y1;
+        //tmp_node.edge_ids.push_back(tmp_id);
         nodes.push_back(tmp_node);
         
         tmp_node.id = node_id++;
         tmp_node.x = x2;
         tmp_node.y = y2;
+        //tmp_node.edge_ids.push_back(tmp_id);
         nodes.push_back(tmp_node);
     
         tmp_edge.id = tmp_id++;
         tmp_edge.u = node_id - 2;
         tmp_edge.v = node_id - 1;
-        // Calculate length in pixels, then convert to meters
-        double length_px = std::sqrt(static_cast<double>((x2 - x1)*(x2 - x1) + (y2 - y1)*(y2 - y1)));
-        tmp_edge.length = length_px * resolution;
+        
         edges.push_back(tmp_edge);
 
 
@@ -273,20 +282,21 @@ static bool isPathClearOnGrid(const OccupancyGrid& grid, int x0, int y0, int x1,
 static TopologicalMap connectEndpoints(
     const OccupancyGrid& grid, 
     const TopologicalMap& topo, 
-    double max_search_radius) {
+    double max_search_radius,
+    bool is_best) {
     
     TopologicalMap result = topo;
 
-    std::vector<int> degree(result.nodes.size(), 0);
-    for (const auto& edge : result.edges) {
-        degree[edge.u]++;
-        degree[edge.v]++;
+    std::map<int, int> degree_map;
+    for(const auto& edge : result.edges) {
+        degree_map[edge.u]++;
+        degree_map[edge.v]++;
     }
-    
+
     // Identify endpoints (degree == 1)
     std::vector<int> endpoint_ids;
     for (const auto& node : result.nodes) {
-        if (degree[node.id] == 1) {
+        if (degree_map[node.id] == 1) {
             endpoint_ids.push_back(node.id);
         }
     }
@@ -310,6 +320,8 @@ static TopologicalMap connectEndpoints(
     // Set to track which endpoints have been connected
     std::set<int> connected_endpoints;
     
+
+
     //loop through all endpoints
     for (int endpoint_id : endpoint_ids) {
         // Skip if already connected in this pass
@@ -323,10 +335,11 @@ static TopologicalMap connectEndpoints(
         int src_gx = src_x / grid_size;
         int src_gy = src_y / grid_size;
         
-        // Find best connection candidate
-        int best_candidate_id = -1;
-        double best_distance = std::numeric_limits<double>::max();
         
+        //Set to track the best edge
+        int best_candidate_id = -1;
+        double best_distance_px = std::numeric_limits<double>::max();
+    
         // Check cells in the grid_size range
         for (int dgy = -grid_size/2; dgy <= grid_size/2; ++dgy) {
             for (int dgx = -grid_size/2; dgx <= grid_size/2; ++dgx) {
@@ -351,30 +364,56 @@ static TopologicalMap connectEndpoints(
                     // calculate distance between source and candidate node
                     double distance_px = std::hypot(src_x - cand_x, src_y - cand_y);
 
-                    // Update best candidate if closer
-                    if (distance_px < best_distance) {
-                        best_distance = distance_px;
-                        best_candidate_id = candidate_id;
+                    if(is_best) {
+                        // check if the edge is the best edge
+                        if(distance_px < best_distance_px) {
+                            best_distance_px = distance_px;
+                            best_candidate_id = candidate_id;
+                        }
+                    }else{
+                        // add edge id to both nodes
+                        //result.nodes[endpoint_id].edge_ids.push_back(next_edge_id);
+                        //result.nodes[candidate_id].edge_ids.push_back(next_edge_id);
+
+                        //add edge between endpoint and candidate node
+                        TopoEdge new_edge;
+                        new_edge.id = next_edge_id++;
+                        new_edge.u = endpoint_id;
+                        new_edge.v = candidate_id;
+                        // Convert pixel distance to meters
+                        new_edge.length = distance_px * grid.resolution;
+                    
+                        result.edges.push_back(new_edge);
+                    
+                        // Mark both endpoints as connected
+                        connected_endpoints.insert(endpoint_id);
+                        connected_endpoints.insert(candidate_id);
                     }
+                    
                 }
             }
         }
-        
-        // If valid candidate found, create edge
-        if (best_candidate_id != -1) {
+
+        if(is_best) {
+            // add edge id to both nodes
+            //result.nodes[endpoint_id].edge_ids.push_back(next_edge_id);
+            //result.nodes[best_candidate_id].edge_ids.push_back(next_edge_id);
+
+            //add edge between endpoint and candidate node
             TopoEdge new_edge;
             new_edge.id = next_edge_id++;
             new_edge.u = endpoint_id;
             new_edge.v = best_candidate_id;
             // Convert pixel distance to meters
-            new_edge.length = best_distance * grid.resolution;
-            
+            new_edge.length = best_distance_px * grid.resolution;
+        
             result.edges.push_back(new_edge);
-            
+        
             // Mark both endpoints as connected
             connected_endpoints.insert(endpoint_id);
             connected_endpoints.insert(best_candidate_id);
         }
+
     }
     
     return result;
@@ -471,14 +510,16 @@ static TopologicalMap mergeNearbyNodes(const TopologicalMap& topo, double merge_
         new_edge.v = new_v;
         
         // Recalculate length based on merged node positions (in pixels, convert to meters)
-        const auto& node_u = result.nodes[new_u];
-        const auto& node_v = result.nodes[new_v];
-        double dx = node_u.x - node_v.x;
-        double dy = node_u.y - node_v.y;
-        double length_px = std::sqrt(dx * dx + dy * dy);
+        double dx = result.nodes[new_u].x - result.nodes[new_v].x;
+        double dy = result.nodes[new_u].y - result.nodes[new_v].y;
+        double length_px = std::hypot(dx, dy);
         new_edge.length = length_px * resolution;
         
         result.edges.push_back(new_edge);
+
+        // add edge id to both nodes
+        //result.nodes[new_u].edge_ids.push_back(new_edge.id);
+        //result.nodes[new_v].edge_ids.push_back(new_edge.id);
     }
     
     return result;
@@ -497,17 +538,20 @@ TopologicalMap TopologyExtractor::run(const OccupancyGrid& grid, const std::vect
     std::vector<uint8_t> is_skel = zhangSuenThinning(gvd_mask, width, height);
 
     // Phase 1: Extract nodes and edges from Hough transform line detection
-    topo = extractNodesFromHoughLines(is_skel, width, height, resolution);
+    double min_length = 5.0 * resolution;
+    topo = extractNodesFromHoughLines(is_skel, width, height, resolution, min_length);
 
     // Phase 2: Connect isolated endpoint nodes
     // Adjust search radius based on map size to avoid performance issues
     const double max_search_radius = (width * height > 10000000) ? 2.0 : 10.0;  // meters
-    topo = connectEndpoints(grid, topo, max_search_radius);
+    topo = connectEndpoints(grid, topo, max_search_radius, false);
 
     // Phase 3: Merge nearby nodes connected by short edges
     const double merge_threshold = 5.0 * resolution;  // Merge nodes closer than 1 pixel (in meters)
     topo = mergeNearbyNodes(topo, merge_threshold, resolution);
 
+    topo = connectEndpoints(grid, topo, max_search_radius, false);
+    
     return topo;
 }
 

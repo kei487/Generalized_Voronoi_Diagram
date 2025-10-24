@@ -97,7 +97,7 @@ void Visualizer::saveTopologicalMapAsImage(const TopologicalMap& map,
         */
     }
     
-    /*
+    
     // Draw nodes
     for (const auto& node : map.nodes) {
         int x = static_cast<int>((node.x - min_x) * scale);
@@ -115,7 +115,7 @@ void Visualizer::saveTopologicalMapAsImage(const TopologicalMap& map,
                        cv::Scalar(options.text_color[0], options.text_color[1], options.text_color[2]), 1);
         }
     }
-    */
+    
     
     // Save image
     if (!cv::imwrite(output_path, image)) {

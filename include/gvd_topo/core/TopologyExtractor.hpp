@@ -11,9 +11,9 @@ class OccupancyGrid; // Forward declaration
 
 struct TopoNode {
     int id {0};
-    std::vector<int> edge_ids;
     double x {0.0};
     double y {0.0};
+    //std::vector<int> edge_ids;
 };
 
 struct TopoEdge {
