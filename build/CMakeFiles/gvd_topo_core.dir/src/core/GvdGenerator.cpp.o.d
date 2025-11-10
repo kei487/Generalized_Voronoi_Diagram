@@ -1,7 +1,7 @@
 CMakeFiles/gvd_topo_core.dir/src/core/GvdGenerator.cpp.o: \
- /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/src/core/GvdGenerator.cpp \
+ /home/keitaro/ws/Generalized_Voronoi_Diagram/src/core/GvdGenerator.cpp \
  /usr/include/stdc-predef.h \
- /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/include/gvd_topo/core/GvdGenerator.hpp \
+ /home/keitaro/ws/Generalized_Voronoi_Diagram/include/gvd_topo/core/GvdGenerator.hpp \
  /usr/include/c++/11/vector /usr/include/c++/11/bits/stl_algobase.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
@@ -52,7 +52,7 @@ CMakeFiles/gvd_topo_core.dir/src/core/GvdGenerator.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
- /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/include/gvd_topo/core/OccupancyGrid.hpp \
+ /home/keitaro/ws/Generalized_Voronoi_Diagram/include/gvd_topo/core/OccupancyGrid.hpp \
  /usr/include/c++/11/string /usr/include/c++/11/bits/stringfwd.h \
  /usr/include/c++/11/bits/char_traits.h \
  /usr/include/c++/11/bits/postypes.h /usr/include/c++/11/cwchar \

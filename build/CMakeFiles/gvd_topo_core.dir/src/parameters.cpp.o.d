@@ -1,7 +1,7 @@
 CMakeFiles/gvd_topo_core.dir/src/parameters.cpp.o: \
- /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/src/parameters.cpp \
+ /home/keitaro/ws/Generalized_Voronoi_Diagram/src/parameters.cpp \
  /usr/include/stdc-predef.h \
- /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/include/gvd_topo/parameters.hpp \
+ /home/keitaro/ws/Generalized_Voronoi_Diagram/include/gvd_topo/parameters.hpp \
  /usr/include/c++/11/string \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \

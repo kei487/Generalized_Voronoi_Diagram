@@ -547,7 +547,7 @@ TopologicalMap TopologyExtractor::run(const OccupancyGrid& grid, const std::vect
     topo = connectEndpoints(grid, topo, max_search_radius, false);
 
     // Phase 3: Merge nearby nodes connected by short edges
-    const double merge_threshold = 5.0 * resolution;  // Merge nodes closer than 1 pixel (in meters)
+    const double merge_threshold = 10.0 * resolution;  // Merge nodes closer than 1 pixel (in meters)
     topo = mergeNearbyNodes(topo, merge_threshold, resolution);
 
     topo = connectEndpoints(grid, topo, max_search_radius, false);

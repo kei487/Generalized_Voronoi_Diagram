@@ -1,8 +1,8 @@
 CMakeFiles/gvd_topo_core.dir/src/core/Visualizer.cpp.o: \
- /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/src/core/Visualizer.cpp \
+ /home/keitaro/ws/Generalized_Voronoi_Diagram/src/core/Visualizer.cpp \
  /usr/include/stdc-predef.h \
- /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/include/gvd_topo/core/Visualizer.hpp \
- /home/keitaro/cursor_ws/Generalized_Voronoi_Diagram/include/gvd_topo/core/TopologyExtractor.hpp \
+ /home/keitaro/ws/Generalized_Voronoi_Diagram/include/gvd_topo/core/Visualizer.hpp \
+ /home/keitaro/ws/Generalized_Voronoi_Diagram/include/gvd_topo/core/TopologyExtractor.hpp \
  /usr/include/c++/11/vector /usr/include/c++/11/bits/stl_algobase.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
