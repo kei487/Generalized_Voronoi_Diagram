@@ -1,2 +1,0 @@
-/usr/bin/ar qc lib/libgvd_topo_core.a CMakeFiles/gvd_topo_core.dir/src/core/OccupancyGrid.cpp.o CMakeFiles/gvd_topo_core.dir/src/core/GvdGenerator.cpp.o CMakeFiles/gvd_topo_core.dir/src/core/TopologyExtractor.cpp.o CMakeFiles/gvd_topo_core.dir/src/core/Visualizer.cpp.o CMakeFiles/gvd_topo_core.dir/src/io/YamlLoader.cpp.o CMakeFiles/gvd_topo_core.dir/src/utils/ConfigManager.cpp.o CMakeFiles/gvd_topo_core.dir/src/ros_adapters.cpp.o CMakeFiles/gvd_topo_core.dir/src/parameters.cpp.o
-/usr/bin/ranlib lib/libgvd_topo_core.a

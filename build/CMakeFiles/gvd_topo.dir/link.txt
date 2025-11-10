@@ -1,2 +1,0 @@
-/usr/bin/ar qc lib/libgvd_topo.a CMakeFiles/gvd_topo.dir/src/main.cpp.o
-/usr/bin/ranlib lib/libgvd_topo.a
