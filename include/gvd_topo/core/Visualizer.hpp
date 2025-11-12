@@ -13,9 +13,9 @@ struct VisualizationOptions {
     bool show_node_ids {false};
     bool show_edge_lengths {false};
     double scale_factor {1.0}; // Auto-scale if <= 0
-    int background_color[3] {255, 255, 255}; // RGB
+    int background_color[3] {255, 255, 255}; // white
     int node_color[3] {0, 255, 0}; // Green
-    int edge_color[3] {255, 0, 0}; // Red
+    int edge_color[3] {255, 0, 0}; // blue ~Red~
     int text_color[3] {0, 0, 0}; // Black
 };
 

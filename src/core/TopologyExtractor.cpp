@@ -11,6 +11,8 @@
 #include <vector>
 #include <unordered_set>
 
+#include <iostream>
+
 #ifdef GVD_TOPO_WITH_OPENCV
 #include <opencv2/imgproc.hpp>
 #include <opencv2/core.hpp>
@@ -296,10 +298,11 @@ static TopologicalMap connectEndpoints(
     // Identify endpoints (degree == 1)
     std::vector<int> endpoint_ids;
     for (const auto& node : result.nodes) {
-        if (degree_map[node.id] == 1) {
+        if (degree_map[node.id] == 1 || degree_map[node.id] == 0) {
             endpoint_ids.push_back(node.id);
         }
     }
+    std::cout << "    Debug endpoint_ids size: " << endpoint_ids.size() << std::endl;
     
     // Build spatial grid for faster neighbor search
     double max_search_radius_px = max_search_radius / grid.resolution;
@@ -325,15 +328,18 @@ static TopologicalMap connectEndpoints(
     //loop through all endpoints
     for (int endpoint_id : endpoint_ids) {
         // Skip if already connected in this pass
-        if (connected_endpoints.count(endpoint_id)) continue;
+        if (connected_endpoints.count(endpoint_id)) {
+            std::cout << "    Debug already exist" << std::endl;
+            continue;
+        }
         
         const auto& src_node = result.nodes[endpoint_id];
         
         // Node coordinates are already in pixels (from Hough transform)
         int src_x = static_cast<int>(std::round(src_node.x));
         int src_y = static_cast<int>(std::round(src_node.y));
-        int src_gx = src_x / grid_size;
-        int src_gy = src_y / grid_size;
+        int src_gx = src_x / grid.resolution;
+        int src_gy = src_y / grid.resolution;
         
         
         //Set to track the best edge
@@ -345,7 +351,6 @@ static TopologicalMap connectEndpoints(
             for (int dgx = -grid_size/2; dgx <= grid_size/2; ++dgx) {
                 auto it = spatial_grid.find({src_gx + dgx, src_gy + dgy});
                 if (it == spatial_grid.end()) continue;
-                
                 for (int candidate_id : it->second) {
                     // Skip self and already connected
                     if (candidate_id == endpoint_id) continue;
@@ -358,9 +363,10 @@ static TopologicalMap connectEndpoints(
                     
                     // Check if path is collision-free
                     if (!isPathClearOnGrid(grid, src_x, src_y, cand_x, cand_y)) {
+                        std::cout << "    Debug not pass" << std::endl;
                         continue;
                     }
-                    
+                    std::cout << "    Debug pass" << std::endl;
                     // calculate distance between source and candidate node
                     double distance_px = std::hypot(src_x - cand_x, src_y - cand_y);
 
@@ -384,7 +390,7 @@ static TopologicalMap connectEndpoints(
                         new_edge.length = distance_px * grid.resolution;
                     
                         result.edges.push_back(new_edge);
-                    
+
                         // Mark both endpoints as connected
                         connected_endpoints.insert(endpoint_id);
                         connected_endpoints.insert(candidate_id);
@@ -541,17 +547,27 @@ TopologicalMap TopologyExtractor::run(const OccupancyGrid& grid, const std::vect
     double min_length = 5.0 * resolution;
     topo = extractNodesFromHoughLines(is_skel, width, height, resolution, min_length);
 
+    std::cout << "   Debug topo size1: " << topo.nodes.size() << ", edges=" << topo.edges.size() << std::endl;
+
     // Phase 2: Connect isolated endpoint nodes
     // Adjust search radius based on map size to avoid performance issues
-    const double max_search_radius = (width * height > 10000000) ? 2.0 : 10.0;  // meters
+    double max_search_radius = 5.0 * resolution;  // meters
     topo = connectEndpoints(grid, topo, max_search_radius, false);
+
+    std::cout << "   Debug topo size2: " << topo.nodes.size() << ", edges=" << topo.edges.size() << std::endl;
 
     // Phase 3: Merge nearby nodes connected by short edges
-    const double merge_threshold = 10.0 * resolution;  // Merge nodes closer than 1 pixel (in meters)
+    const double merge_threshold = 5.0 * resolution;  // Merge nodes closer than 1 pixel (in meters)
     topo = mergeNearbyNodes(topo, merge_threshold, resolution);
 
+    std::cout << "   Debug topo size3: " << topo.nodes.size() << ", edges=" << topo.edges.size() << std::endl;
+
+    max_search_radius = 25.0 * resolution;
     topo = connectEndpoints(grid, topo, max_search_radius, false);
     
+    std::cout << "   Debug topo size4: " << topo.nodes.size() << ", edges=" << topo.edges.size() << std::endl;
+
+
     return topo;
 }
 

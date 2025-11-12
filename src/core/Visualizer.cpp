@@ -67,8 +67,8 @@ void Visualizer::saveTopologicalMapAsImage(const TopologicalMap& map,
         int y1 = static_cast<int>((map.nodes[edge.u].y - min_y) * scale);
         int x2 = static_cast<int>((map.nodes[edge.v].x - min_x) * scale);
         int y2 = static_cast<int>((map.nodes[edge.v].y - min_y) * scale);
-        y1 = options.image_height - y1; // Flip Y coordinate
-        y2 = options.image_height - y2; // Flip Y coordinate
+        // y1 = options.image_height - y1; // Flip Y coordinate
+        // y2 = options.image_height - y2; // Flip Y coordinate
         points.push_back(cv::Point(x1, y1));
         points.push_back(cv::Point(x2, y2));
         
@@ -102,7 +102,7 @@ void Visualizer::saveTopologicalMapAsImage(const TopologicalMap& map,
     for (const auto& node : map.nodes) {
         int x = static_cast<int>((node.x - min_x) * scale);
         int y = static_cast<int>((node.y - min_y) * scale);
-        y = options.image_height - y; // Flip Y coordinate
+        // y = options.image_height - y; // Flip Y coordinate
         
         cv::circle(image, cv::Point(x, y), 0.5, //options.node_radius, 
                   cv::Scalar(options.node_color[0], options.node_color[1], options.node_color[2]), -1);
