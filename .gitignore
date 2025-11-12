@@ -1,3 +1,5 @@
 output
-build
+build/*
 cmd_*
+.vscode/*
+test_*
