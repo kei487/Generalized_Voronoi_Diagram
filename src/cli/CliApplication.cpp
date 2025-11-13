@@ -155,7 +155,7 @@ void CliApplication::saveOutputs(const ConfigOptions& config,
     if (!config.output.topo_image.empty()) {
         ScopeTimer timer("topo-visualization", timing_callback_);
         try {
-            Visualizer::saveTopologicalMapAsImage(topo_map, config.output.topo_image, 1200, 800);
+            Visualizer::saveTopologicalMapAsImage(topo_map, config.output.topo_image, gvd_result.width, gvd_result.height);
             std::cout << "Wrote topological map image: " << config.output.topo_image << std::endl;
         } catch (const std::exception& e) {
             std::cerr << "Failed to create topological map image: " << e.what() << std::endl;

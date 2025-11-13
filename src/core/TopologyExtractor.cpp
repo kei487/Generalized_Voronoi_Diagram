@@ -323,15 +323,13 @@ static TopologicalMap connectEndpoints(
     // Set to track which endpoints have been connected
     std::set<int> connected_endpoints;
     
-
+    //debug
+    int num_edge_add=0;
 
     //loop through all endpoints
     for (int endpoint_id : endpoint_ids) {
         // Skip if already connected in this pass
-        if (connected_endpoints.count(endpoint_id)) {
-            std::cout << "    Debug already exist" << std::endl;
-            continue;
-        }
+        if (connected_endpoints.count(endpoint_id)) continue;
         
         const auto& src_node = result.nodes[endpoint_id];
         
@@ -346,6 +344,9 @@ static TopologicalMap connectEndpoints(
         int best_candidate_id = -1;
         double best_distance_px = std::numeric_limits<double>::max();
     
+       //test
+        bool is_edge_add = false;
+
         // Check cells in the grid_size range
         for (int dgy = -grid_size/2; dgy <= grid_size/2; ++dgy) {
             for (int dgx = -grid_size/2; dgx <= grid_size/2; ++dgx) {
@@ -353,8 +354,13 @@ static TopologicalMap connectEndpoints(
                 if (it == spatial_grid.end()) continue;
                 for (int candidate_id : it->second) {
                     // Skip self and already connected
-                    if (candidate_id == endpoint_id) continue;
-                    
+                    if (candidate_id == endpoint_id) {
+                        // std::cout << "    Debug already connect: " 
+                        // << candidate_id << ", "<< endpoint_id << std::endl;
+                        continue;
+                    }
+                    // std::cout << "    Debug find to connect pair: " 
+                    //     << candidate_id << ", "<< endpoint_id << std::endl;
                     const auto& cand_node = result.nodes[candidate_id];
                     
                     // Candidate coordinates are also in pixels
@@ -363,10 +369,13 @@ static TopologicalMap connectEndpoints(
                     
                     // Check if path is collision-free
                     if (!isPathClearOnGrid(grid, src_x, src_y, cand_x, cand_y)) {
-                        std::cout << "    Debug not pass" << std::endl;
+                        //std::cout << "    Debug not pass" << std::endl;
                         continue;
                     }
-                    std::cout << "    Debug pass" << std::endl;
+                    //std::cout << "    Debug pass" << std::endl;
+
+                    //test
+                    is_edge_add = true;
                     // calculate distance between source and candidate node
                     double distance_px = std::hypot(src_x - cand_x, src_y - cand_y);
 
@@ -377,10 +386,6 @@ static TopologicalMap connectEndpoints(
                             best_candidate_id = candidate_id;
                         }
                     }else{
-                        // add edge id to both nodes
-                        //result.nodes[endpoint_id].edge_ids.push_back(next_edge_id);
-                        //result.nodes[candidate_id].edge_ids.push_back(next_edge_id);
-
                         //add edge between endpoint and candidate node
                         TopoEdge new_edge;
                         new_edge.id = next_edge_id++;
@@ -401,10 +406,6 @@ static TopologicalMap connectEndpoints(
         }
 
         if(is_best) {
-            // add edge id to both nodes
-            //result.nodes[endpoint_id].edge_ids.push_back(next_edge_id);
-            //result.nodes[best_candidate_id].edge_ids.push_back(next_edge_id);
-
             //add edge between endpoint and candidate node
             TopoEdge new_edge;
             new_edge.id = next_edge_id++;
@@ -419,9 +420,15 @@ static TopologicalMap connectEndpoints(
             connected_endpoints.insert(endpoint_id);
             connected_endpoints.insert(best_candidate_id);
         }
+        
+        if(is_edge_add){
+            num_edge_add++;
+        }
 
     }
-    
+
+    std::cout << "    Debug add edgge: " << num_edge_add << std::endl;
+
     return result;
 }
 
@@ -549,24 +556,41 @@ TopologicalMap TopologyExtractor::run(const OccupancyGrid& grid, const std::vect
 
     std::cout << "   Debug topo size1: " << topo.nodes.size() << ", edges=" << topo.edges.size() << std::endl;
 
+
+    // Phase 1.5: Merge nearby nodes connected by short edges
+    const double merge_threshold = 10.0 * resolution;  // Merge nodes closer than 1 pixel (in meters)
+    topo = mergeNearbyNodes(topo, merge_threshold, resolution);
+
+    std::cout << "   Debug topo size1.5: " << topo.nodes.size() << ", edges=" << topo.edges.size() << std::endl;
+
     // Phase 2: Connect isolated endpoint nodes
     // Adjust search radius based on map size to avoid performance issues
-    double max_search_radius = 5.0 * resolution;  // meters
+    double max_search_radius = 10.0 * resolution;  // meters
     topo = connectEndpoints(grid, topo, max_search_radius, false);
 
     std::cout << "   Debug topo size2: " << topo.nodes.size() << ", edges=" << topo.edges.size() << std::endl;
 
     // Phase 3: Merge nearby nodes connected by short edges
-    const double merge_threshold = 5.0 * resolution;  // Merge nodes closer than 1 pixel (in meters)
+    //const double merge_threshold = 10.0 * resolution;  // Merge nodes closer than 1 pixel (in meters)
     topo = mergeNearbyNodes(topo, merge_threshold, resolution);
 
     std::cout << "   Debug topo size3: " << topo.nodes.size() << ", edges=" << topo.edges.size() << std::endl;
 
-    max_search_radius = 25.0 * resolution;
+    max_search_radius = 30.0 * resolution;
     topo = connectEndpoints(grid, topo, max_search_radius, false);
     
     std::cout << "   Debug topo size4: " << topo.nodes.size() << ", edges=" << topo.edges.size() << std::endl;
 
+    // Phase 3: Merge nearby nodes connected by short edges
+    //const double merge_threshold = 10.0 * resolution;  // Merge nodes closer than 1 pixel (in meters)
+    topo = mergeNearbyNodes(topo, merge_threshold, resolution);
+
+    std::cout << "   Debug topo size5: " << topo.nodes.size() << ", edges=" << topo.edges.size() << std::endl;
+
+    max_search_radius = 100.0 * resolution;
+    topo = connectEndpoints(grid, topo, max_search_radius, false);
+    
+    std::cout << "   Debug topo size6: " << topo.nodes.size() << ", edges=" << topo.edges.size() << std::endl;
 
     return topo;
 }
